@@ -62,7 +62,7 @@ export default function CartPage() {
                   </Button>
                 </div>
                 <div className="ml-4">
-                  <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+                  <Button variant="ghost" size="icon" onClick={() => removeItem(item.id, true)}>
                      <Trash2 className="h-5 w-5 text-destructive" />
                   </Button>
                 </div>
@@ -92,7 +92,9 @@ export default function CartPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" size="lg">Proceed to Checkout</Button>
+                 <Button className="w-full" size="lg" asChild>
+                  <Link href="/checkout">Proceed to Checkout</Link>
+                </Button>
               </CardFooter>
             </Card>
           </div>

@@ -1,6 +1,7 @@
+
 import { enhancedSearch, EnhancedSearchOutput } from "@/ai/flows/enhanced-search.ts";
 import { ProductCard } from "@/components/product-card";
-import { getProductById } from "@/lib/products";
+import { getProductById, getProducts } from "@/lib/products";
 import type { Product } from "@/types";
 import { Suspense } from 'react';
 
@@ -11,33 +12,33 @@ type SearchPageProps = {
 };
 
 async function SearchResults({ query }: { query: string }) {
-  let searchResults: EnhancedSearchOutput = [];
+  let aiResults: EnhancedSearchOutput = [];
   try {
-    searchResults = await enhancedSearch({ query });
+    aiResults = await enhancedSearch({ query });
   } catch (error) {
     console.error("AI search failed:", error);
   }
 
-  // Enrich AI results with local stock data if available
-  const enrichedResults: Product[] = searchResults.map(aiProduct => {
-    const localProduct = getProductById(aiProduct.name.toLowerCase().replace(/ /g, '-')); // A simple way to try and match
-    return {
-      id: localProduct?.id || aiProduct.name.toLowerCase().replace(/ /g, '-'),
-      name: aiProduct.name,
-      description: aiProduct.description,
-      category: aiProduct.category,
-      price: aiProduct.price,
-      imageUrl: localProduct?.imageUrl || 'https://placehold.co/600x400.png', // Fallback image
-      stock: localProduct?.stock ?? 1, // Assume in stock if not found locally
-    };
-  });
+  const allProducts = getProducts();
+  const searchResults: Product[] = [];
+
+  if (aiResults.length > 0) {
+    // Find the full product details from our local data based on the name from the AI result.
+    // This is more robust than relying on the AI to return every single field correctly.
+    for (const aiProduct of aiResults) {
+        const foundProduct = allProducts.find(p => p.name.toLowerCase() === aiProduct.name.toLowerCase());
+        if(foundProduct) {
+            searchResults.push(foundProduct);
+        }
+    }
+  }
 
 
   return (
     <>
-      {enrichedResults.length > 0 ? (
+      {searchResults.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {enrichedResults.map((product) => (
+          {searchResults.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
@@ -59,7 +60,7 @@ export default function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="font-headline text-3xl md:text-4xl font-bold mb-8">
-        Search Results for "{query}"
+        Search Results {query && `for "${query}"`}
       </h1>
       <Suspense fallback={<p>Loading search results...</p>}>
         {query ? <SearchResults query={query} /> : <p>Please enter a search term.</p>}

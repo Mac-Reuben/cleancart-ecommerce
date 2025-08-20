@@ -3,12 +3,12 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { CartItem, Product } from '@/types';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
 
 interface CartState {
   items: CartItem[];
   addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
+  removeItem: (productId: string, removeAll?: boolean) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -22,7 +22,6 @@ const useCartStore = create<CartState>()(
       totalPrice: 0,
 
       addItem: (product: Product) => {
-        const { toast } = useToast.getState();
         const currentItems = get().items;
         const existingItem = currentItems.find((item) => item.id === product.id);
 
@@ -55,35 +54,37 @@ const useCartStore = create<CartState>()(
         }));
       },
 
-      removeItem: (productId: string) => {
-        const { toast } = useToast.getState();
+      removeItem: (productId: string, removeAll: boolean = false) => {
         const currentItems = get().items;
         const itemToRemove = currentItems.find((item) => item.id === productId);
 
         if (!itemToRemove) return;
 
         let updatedItems;
-        if (itemToRemove.quantity > 1) {
+        if (itemToRemove.quantity > 1 && !removeAll) {
           updatedItems = currentItems.map((item) =>
             item.id === productId
               ? { ...item, quantity: item.quantity - 1 }
               : item
           );
+           set((state) => ({
+              items: updatedItems,
+              totalItems: state.totalItems - 1,
+              totalPrice: state.totalPrice - itemToRemove.price
+            }));
           toast({ title: "Item quantity updated" });
         } else {
           updatedItems = currentItems.filter((item) => item.id !== productId);
+           set((state) => ({
+              items: updatedItems,
+              totalItems: state.totalItems - itemToRemove.quantity,
+              totalPrice: state.totalPrice - (itemToRemove.price * itemToRemove.quantity)
+            }));
           toast({ title: "Item removed from cart" });
         }
-
-        set((state) => ({
-          items: updatedItems,
-          totalItems: state.totalItems - 1,
-          totalPrice: state.totalPrice - itemToRemove.price
-        }));
       },
 
       clearCart: () => {
-        const { toast } = useToast.getState();
         set({ items: [], totalItems: 0, totalPrice: 0 });
         toast({ title: "Cart cleared" });
       },

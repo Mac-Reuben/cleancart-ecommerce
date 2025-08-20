@@ -11,9 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function AdminPage() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleAddProduct = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,6 +35,10 @@ export default function AdminPage() {
     (event.target as HTMLFormElement).reset();
   };
 
+  const handleLogout = () => {
+    router.push('/auth');
+  }
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -41,7 +47,7 @@ export default function AdminPage() {
           <h1 className="font-headline text-3xl md:text-4xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground">Welcome, info@achetait.com</p>
         </div>
-        <Button>Log Out</Button>
+        <Button onClick={handleLogout}>Log Out</Button>
       </div>
 
       <Tabs defaultValue="products">
@@ -102,7 +108,7 @@ export default function AdminPage() {
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="imageUrl">Image URL</Label>
-                    <Input id="imageUrl" name="imageUrl" placeholder="https://placehold.co/600x400.png" defaultValue="https://placehold.co/600x400.png" required />
+                    <Input id="imageUrl" name="imageUrl" placeholder="https://your-image-host.com/your-image.png" required />
                   </div>
                 <Button type="submit">Add Product</Button>
               </form>

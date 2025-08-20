@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { getProducts } from '@/lib/products';
 
 const EnhancedSearchInputSchema = z.object({
   query: z.string().describe('The user search query.'),
@@ -31,92 +32,7 @@ export async function enhancedSearch(input: EnhancedSearchInput): Promise<Enhanc
   return enhancedSearchFlow(input);
 }
 
-const productList = [
-  {
-    name: 'Dell XPS 15',
-    description: 'Powerful laptop for professionals.',
-    category: 'IT equipment',
-    price: 1799.99,
-    imageUrl: 'https://example.com/dell_xps_15.jpg',
-  },
-  {
-    name: 'iPhone 14 Pro',
-    description: 'The latest smartphone from Apple.',
-    category: 'phones',
-    price: 1199.00,
-    imageUrl: 'https://example.com/iphone_14_pro.jpg',
-  },
-  {
-    name: 'Logitech MX Master 3',
-    description: 'Ergonomic wireless mouse.',
-    category: 'accessories',
-    price: 99.99,
-    imageUrl: 'https://example.com/logitech_mx_master_3.jpg',
-  },
-  {
-    name: 'Samsung Galaxy S23',
-    description: 'High-end Android smartphone with advanced features.',
-    category: 'phones',
-    price: 999.00,
-    imageUrl: 'https://example.com/samsung_galaxy_s23.jpg',
-  },
-  {
-    name: 'HP Envy Printer',
-    description: 'All-in-one printer for home and office use.',
-    category: 'IT equipment',
-    price: 249.00,
-    imageUrl: 'https://example.com/hp_envy_printer.jpg',
-  },
-  {
-    name: 'Apple AirPods Pro',
-    description: 'Premium wireless earbuds with noise cancellation.',
-    category: 'accessories',
-    price: 249.00,
-    imageUrl: 'https://example.com/apple_airpods_pro.jpg',
-  },
-  {
-    name: 'Dell XPS 17',
-    description: 'Powerful laptop for professionals.',
-    category: 'IT equipment',
-    price: 2799.99,
-    imageUrl: 'https://example.com/dell_xps_17.jpg',
-  },
-  {
-    name: 'iPhone 15 Pro',
-    description: 'The latest smartphone from Apple.',
-    category: 'phones',
-    price: 1299.00,
-    imageUrl: 'https://example.com/iphone_15_pro.jpg',
-  },
-  {
-    name: 'Logitech MX Keys',
-    description: 'Ergonomic wireless keyboard.',
-    category: 'accessories',
-    price: 129.99,
-    imageUrl: 'https://example.com/logitech_mx_keys.jpg',
-  },
-  {
-    name: 'Samsung Galaxy S24',
-    description: 'High-end Android smartphone with advanced features.',
-    category: 'phones',
-    price: 1099.00,
-    imageUrl: 'https://example.com/samsung_galaxy_s24.jpg',
-  },
-  {
-    name: 'HP LaserJet Printer',
-    description: 'All-in-one printer for home and office use.',
-    category: 'IT equipment',
-    price: 349.00,
-    imageUrl: 'https://example.com/hp_laserjet_printer.jpg',
-  },
-  {
-    name: 'Apple Watch Series 9',
-    description: 'Premium smartwatch with health tracking features.',
-    category: 'accessories',
-    price: 349.00,
-    imageUrl: 'https://example.com/apple_watch_series_9.jpg',
-  },
-];
+const productList = getProducts();
 
 const prompt = ai.definePrompt({
   name: 'enhancedSearchPrompt',
