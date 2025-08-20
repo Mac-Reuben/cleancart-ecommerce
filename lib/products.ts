@@ -7,7 +7,7 @@ const products: Product[] = [
     description: 'Powerful 15-inch laptop with a stunning display, perfect for creative professionals and developers.',
     category: 'IT equipment',
     price: 1799.99,
-    imageUrl: '/images/products/dell-xps.jpg',
+    imageUrl: '/images/products/dell-xps.png',
     stock: 15,
   },
   {
@@ -16,7 +16,7 @@ const products: Product[] = [
     description: 'The latest smartphone from Apple, featuring the A17 Bionic chip and a pro-grade camera system.',
     category: 'phones',
     price: 1199.00,
-    imageUrl: '/images/products/iphone15.jpg',
+    imageUrl: '/images/products/iphone15.png',
     stock: 25,
   },
   {
@@ -25,7 +25,7 @@ const products: Product[] = [
     description: 'Advanced ergonomic wireless mouse with quiet clicks and an 8K DPI sensor for precision work.',
     category: 'accessories',
     price: 99.99,
-    imageUrl: '/images/products/mx-master-3s.jpg',
+    imageUrl: '/images/products/mx-master-3s.png',
     stock: 50,
   },
   {
@@ -34,7 +34,7 @@ const products: Product[] = [
     description: 'High-end Android smartphone with an integrated S Pen and advanced AI camera features.',
     category: 'phones',
     price: 1299.00,
-    imageUrl: '/images/products/samsung24.jpg',
+    imageUrl: '/images/products/samsung24.webp',
     stock: 20,
   },
   {
@@ -70,7 +70,7 @@ const products: Product[] = [
     description: 'The smartest Google phone yet, with a powerful camera and helpful AI features.',
     category: 'phones',
     price: 999.00,
-    imageUrl: '/images/products/pixel8.jpg',
+    imageUrl: '/images/products/pixel8.png',
     stock: 22,
   },
   {
@@ -88,7 +88,7 @@ const products: Product[] = [
     description: 'An immersive ultrawide gaming monitor with a 1000R curve and QLED technology.',
     category: 'IT equipment',
     price: 1399.99,
-    imageUrl: '/images/products/odyssey-monitor.jpg',
+    imageUrl: '/images/products/odyssey-monitor.webp',
     stock: 8,
   },
   {
@@ -106,7 +106,7 @@ const products: Product[] = [
     description: 'A powerful smartwatch with advanced health sensors and a new double tap gesture.',
     category: 'accessories',
     price: 399.00,
-    imageUrl: '/images/products/apple_watchseries_9.jpg',
+    imageUrl: '/images/products/apple_watchseries_9.png',
     stock: 33,
   }
 ];
